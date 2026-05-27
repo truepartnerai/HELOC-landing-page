@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Get a low-rate home equity line of credit in as little as three days. No appraisal required. Apply in three minutes — soft credit check only.">
 
+    <!-- Meta domain verification -->
+    <meta name="facebook-domain-verification" content="locjpasyl7zp811194zywrw0yef0t3" />
+
     <meta property="og:title" content="Low-Rate HELOC in 3 Days · No Appraisal Required">
     <meta property="og:description" content="Get a low-rate home equity line of credit in as little as three days. No appraisal. Apply in three minutes.">
     <meta property="og:type" content="website">
@@ -970,20 +973,16 @@
             position: relative;
             border: 1px solid var(--gray-100);
         }
-        .ghl-embed-target {
-            min-height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: var(--gray-500);
-            font-style: italic;
-            border: 2px dashed var(--gray-200);
-            padding: 30px;
+        .ghl-form-iframe {
+            width: 100%;
+            min-height: 520px;
+            border: none;
             background: var(--white);
-            text-align: center;
-            line-height: 1.7;
             border-radius: 12px;
+            display: block;
+        }
+        @media (max-width: 640px) {
+            .ghl-form-iframe { min-height: 580px; }
         }
 
         /* ═══════════════════════════════════════════════════════
@@ -1544,12 +1543,24 @@
                 <p class="leadcap-sub">A short, plain-English breakdown of how Utah homeowners are using home equity right now to pay off credit cards and fund renovations — without giving up the low-rate mortgage they fought to get.</p>
 
                 <div class="leadcap-form">
-                    <!-- GHL FORM EMBED — paste embed code here, replacing the placeholder div -->
-                    <div class="ghl-embed-target">
-                        [ Paste GHL form embed here ]<br>
-                        Fields: First Name, Email, Phone (optional)<br>
-                        On submit: tag "HELOC Guide Requested" → trigger Escalator sequence
-                    </div>
+                    <!-- GHL Form Embed — Aven HELOC Lead Capture -->
+                    <iframe
+                        src="https://api.leadconnectorhq.com/widget/form/blDnur7Ti7cOVWf28qSM"
+                        class="ghl-form-iframe"
+                        id="inline-blDnur7Ti7cOVWf28qSM"
+                        data-layout="{'id':'INLINE'}"
+                        data-trigger-type="alwaysShow"
+                        data-trigger-value=""
+                        data-activation-type="alwaysActivated"
+                        data-activation-value=""
+                        data-deactivation-type="neverDeactivate"
+                        data-deactivation-value=""
+                        data-form-name="Aven HELOC Lead Capture"
+                        data-height="400"
+                        data-layout-iframe-id="inline-blDnur7Ti7cOVWf28qSM"
+                        data-form-id="blDnur7Ti7cOVWf28qSM"
+                        title="Aven HELOC Lead Capture"></iframe>
+                    <script src="https://link.msgsndr.com/js/form_embed.js"></script>
                 </div>
             </div>
         </div>
@@ -1676,6 +1687,37 @@
 
         slider.addEventListener('input', () => { updateCalc(); trackCalcEngagement(); });
         updateCalc(); // initial render
+
+        // ──────────────── GHL FORM SUBMIT → CompleteRegistration ────────────────
+        // GHL's embedded form iframe posts a message to the parent window on
+        // successful submit. Listen for it and fire CompleteRegistration to Meta.
+        let formSubmitted = false;
+        window.addEventListener('message', (event) => {
+            // Only accept messages from GHL's domain
+            if (!event.origin.includes('leadconnectorhq.com') &&
+                !event.origin.includes('msgsndr.com')) return;
+
+            const data = event.data;
+            // GHL fires various message types — we look for submission signals
+            const isSubmit =
+                (typeof data === 'string' && /submit|success|formSubmit/i.test(data)) ||
+                (data && typeof data === 'object' && (
+                    /submit|success|formSubmit/i.test(data.type || '') ||
+                    /submit|success|formSubmit/i.test(data.event || '') ||
+                    data.formSubmitted === true
+                ));
+
+            if (isSubmit && !formSubmitted) {
+                formSubmitted = true;
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'CompleteRegistration', {
+                        content_name: 'heloc_guide_request',
+                        content_category: 'lead_magnet'
+                    });
+                }
+                console.log('GHL form submitted — CompleteRegistration fired');
+            }
+        });
     </script>
 
 </body>

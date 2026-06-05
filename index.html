@@ -1688,36 +1688,7 @@
         slider.addEventListener('input', () => { updateCalc(); trackCalcEngagement(); });
         updateCalc(); // initial render
 
-        // ──────────────── GHL FORM SUBMIT → CompleteRegistration ────────────────
-        // GHL's embedded form iframe posts a message to the parent window on
-        // successful submit. Listen for it and fire CompleteRegistration to Meta.
-        let formSubmitted = false;
-        window.addEventListener('message', (event) => {
-            // Only accept messages from GHL's domain
-            if (!event.origin.includes('leadconnectorhq.com') &&
-                !event.origin.includes('msgsndr.com')) return;
 
-            const data = event.data;
-            // GHL fires various message types — we look for submission signals
-            const isSubmit =
-                (typeof data === 'string' && /submit|success|formSubmit/i.test(data)) ||
-                (data && typeof data === 'object' && (
-                    /submit|success|formSubmit/i.test(data.type || '') ||
-                    /submit|success|formSubmit/i.test(data.event || '') ||
-                    data.formSubmitted === true
-                ));
-
-            if (isSubmit && !formSubmitted) {
-                formSubmitted = true;
-                if (typeof fbq !== 'undefined') {
-                    fbq('track', 'CompleteRegistration', {
-                        content_name: 'heloc_guide_request',
-                        content_category: 'lead_magnet'
-                    });
-                }
-                console.log('GHL form submitted — CompleteRegistration fired');
-            }
-        });
     </script>
 
 </body>

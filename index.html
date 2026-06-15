@@ -292,6 +292,127 @@
             font-weight: 700;
         }
 
+        /* ── What Happens Next — info block above hero CTA ── */
+        .hero-next {
+            max-width: 540px;
+            margin-bottom: 34px;
+            padding: 26px 28px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-100);
+            border-radius: 14px;
+        }
+        .hero-next-head {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--sans);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+        .hero-next-head::before {
+            content: "★";
+            color: var(--red);
+            font-size: 12px;
+        }
+        .hero-next-intro {
+            font-size: 14.5px;
+            line-height: 1.5;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+        .hero-next-list {
+            list-style: none;
+            margin: 0 0 16px;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+        .hero-next-list li {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14.5px;
+            font-weight: 500;
+            line-height: 1.35;
+            color: var(--gray-700);
+        }
+        .hero-next-list .hnl-check {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: var(--ink);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .hero-next-foot {
+            padding-top: 14px;
+            border-top: 1px solid var(--gray-200);
+            font-size: 13.5px;
+            line-height: 1.55;
+            color: var(--gray-600);
+        }
+        .hero-next-foot strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        /* ── Questions block — subordinate, below hero CTA ── */
+        .hero-questions {
+            max-width: 540px;
+            margin-top: 30px;
+            padding: 22px 26px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+        }
+        .hero-questions h4 {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .hero-questions-copy {
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--gray-600);
+            margin-bottom: 14px;
+        }
+        .hero-questions-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            text-decoration: none;
+            color: var(--navy);
+            font-weight: 800;
+            font-size: 21px;
+            letter-spacing: -0.01em;
+            margin-bottom: 12px;
+            transition: color 0.2s ease;
+        }
+        .hero-questions-phone:hover { color: var(--red); }
+        .hero-questions-phone svg {
+            width: 17px;
+            height: 17px;
+            color: var(--red);
+        }
+        .hero-questions-note {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--gray-500);
+            margin: 0;
+        }
+
         /* Hero photo */
         .hero-photo {
             position: relative;
@@ -1233,13 +1354,40 @@
                     <p class="hero-sub">
                         Apply in 3 minutes. Pay off cards, fund a renovation, or handle anything that needs handling — without touching your low-rate first mortgage.
                     </p>
+
+                    <div class="hero-next">
+                        <div class="hero-next-head">What Happens Next</div>
+                        <p class="hero-next-intro">The next step takes about 3 minutes. To provide an accurate offer, you'll be asked for:</p>
+                        <ul class="hero-next-list">
+                            <li><span class="hnl-check">✓</span> Property address</li>
+                            <li><span class="hnl-check">✓</span> Contact information</li>
+                            <li><span class="hnl-check">✓</span> Income estimate</li>
+                            <li><span class="hnl-check">✓</span> Basic homeowner information</li>
+                            <li><span class="hnl-check">✓</span> A soft credit inquiry (will not affect your credit score)</li>
+                        </ul>
+                        <div class="hero-next-foot">
+                            <strong>No appraisal required. No obligation to move forward.</strong><br>
+                            You'll simply see what options may be available based on your situation.
+                        </div>
+                    </div>
+
                     <a href="https://flow.avenfoundry.com?i=7ded9bc4-9571-4e1b-8f38-727d6af03239" class="cta-primary" target="_blank" rel="noopener" id="cta-hero">
-                        Get Pre-Qualified
+                        See What I Qualify For
                         <span class="arrow">→</span>
                     </a>
                     <div class="hero-fineprint">
                         <span class="check">✓</span>
                         Soft credit check · won't affect your score
+                    </div>
+
+                    <div class="hero-questions">
+                        <h4>Questions Before You Continue?</h4>
+                        <p class="hero-questions-copy">I'm a Utah mortgage professional who's helped homeowners for years. If you're wondering whether this is worth exploring for your situation, text or call me directly.</p>
+                        <a class="hero-questions-phone" href="tel:+18018777959">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            801-877-7959
+                        </a>
+                        <p class="hero-questions-note">No pressure. I'll tell you honestly whether it makes sense and what options you may have.</p>
                     </div>
                 </div>
                 <div class="hero-photo reveal">

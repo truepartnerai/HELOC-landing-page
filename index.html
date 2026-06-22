@@ -1317,6 +1317,122 @@
             * { animation: none !important; transition: none !important; }
             .reveal { opacity: 1; transform: none; }
         }
+
+        /* ═══════════════════════════════════════════════════════
+           PRE-FRAME MODAL  (intercepts Apply CTAs → sets expectation
+           before the Aven hand-off; offers self-serve + call/text)
+           ═══════════════════════════════════════════════════════ */
+        .pfm-overlay{
+            position:fixed; inset:0; z-index:9999;
+            background:rgba(10,10,11,0.62);
+            backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+            display:flex; align-items:center; justify-content:center;
+            padding:20px;
+            opacity:0; visibility:hidden; transition:opacity .25s ease, visibility .25s ease;
+        }
+        .pfm-overlay.open{opacity:1; visibility:visible}
+        .pfm-dialog{
+            position:relative; width:100%; max-width:560px; max-height:92vh; overflow-y:auto;
+            background:var(--white); border-radius:20px;
+            padding:38px 34px 30px;
+            box-shadow:0 40px 90px -30px rgba(10,31,68,0.55), 0 8px 24px rgba(10,31,68,0.12);
+            transform:translateY(18px) scale(0.98); transition:transform .28s cubic-bezier(.2,.8,.2,1);
+            -webkit-overflow-scrolling:touch;
+        }
+        .pfm-overlay.open .pfm-dialog{transform:translateY(0) scale(1)}
+        @media (max-width:560px){ .pfm-dialog{padding:30px 22px 24px; border-radius:18px} }
+
+        .pfm-close{
+            position:absolute; top:16px; right:16px; width:34px; height:34px;
+            border:1px solid var(--gray-200); background:var(--white);
+            border-radius:50%; font-size:22px; line-height:1; color:var(--gray-500);
+            cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s ease;
+        }
+        .pfm-close:hover{background:var(--ink); color:#fff; border-color:var(--ink)}
+
+        .pfm-kicker{
+            display:inline-flex; align-items:center; gap:7px;
+            background:var(--red-glow); color:var(--red-deep);
+            font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+            padding:7px 13px; border-radius:999px; margin-bottom:18px;
+        }
+        .pfm-title{
+            font-family:var(--sans); font-weight:800;
+            font-size:clamp(26px,5vw,34px); line-height:1.08; letter-spacing:-0.03em;
+            color:var(--ink); margin-bottom:20px;
+        }
+        .pfm-title span{color:var(--red); font-style:italic; font-weight:500}
+
+        .pfm-video{
+            position:relative; border-radius:14px; overflow:hidden; margin-bottom:20px;
+            aspect-ratio:16/10; background:var(--gray-100); cursor:pointer;
+        }
+        .pfm-video img{width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; filter:brightness(.82)}
+        .pfm-video iframe, .pfm-video video{width:100%; height:100%; border:0; display:block}
+        .pfm-video-overlay{
+            position:absolute; inset:0; display:flex; flex-direction:column;
+            align-items:center; justify-content:center; gap:14px;
+            background:linear-gradient(to top, rgba(6,19,50,0.55), rgba(6,19,50,0.15));
+        }
+        .pfm-play{
+            width:62px; height:62px; border-radius:50%; background:var(--red); color:#fff;
+            display:flex; align-items:center; justify-content:center; font-size:22px; padding-left:4px;
+            box-shadow:0 10px 30px -6px rgba(220,38,38,0.7);
+        }
+        .pfm-video-cap{
+            color:#fff; font-size:13.5px; font-weight:600; letter-spacing:-.01em;
+            background:rgba(10,10,11,0.45); padding:6px 12px; border-radius:999px; backdrop-filter:blur(4px);
+        }
+
+        .pfm-intro{font-size:15.5px; line-height:1.55; color:var(--gray-700); margin-bottom:18px}
+
+        .pfm-card{background:var(--gray-50); border:1px solid var(--gray-100); border-radius:14px; padding:20px 22px; margin-bottom:18px}
+        .pfm-card-head{font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--navy); margin-bottom:14px}
+        .pfm-list{list-style:none; display:grid; gap:11px}
+        .pfm-list li{display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.4; color:var(--gray-700)}
+        .pfm-list li em{font-style:normal; color:var(--gray-600)}
+        .pfm-list li b{color:var(--ink)}
+        .pfm-chk{flex-shrink:0; width:20px; height:20px; border-radius:50%; background:var(--ink); color:#fff;
+                 display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; margin-top:1px}
+
+        .pfm-reassure{
+            font-size:14.5px; line-height:1.55; color:var(--gray-700);
+            padding:16px 18px; background:var(--red-glow);
+            border-left:3px solid var(--red); border-radius:0 10px 10px 0; margin-bottom:24px;
+        }
+
+        .pfm-primary{
+            width:100%; display:inline-flex; align-items:center; justify-content:center; gap:11px;
+            background:var(--red); color:#fff; font-family:var(--sans);
+            font-weight:700; font-size:16.5px; padding:19px 26px; border:none; border-radius:11px; cursor:pointer;
+            box-shadow:0 1px 0 var(--red-deep), 0 12px 30px -10px rgba(220,38,38,0.5); transition:all .2s ease;
+        }
+        .pfm-primary:hover{background:var(--red-deep); transform:translateY(-2px)}
+        .pfm-primary .arrow{transition:transform .2s ease; font-size:18px}
+        .pfm-primary:hover .arrow{transform:translateX(4px)}
+
+        .pfm-help{margin-top:12px}
+        .pfm-help-q{font-size:13px; color:var(--gray-500); text-align:center; margin-bottom:9px; font-weight:500}
+        .pfm-secondary{
+            width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;
+            background:transparent; color:var(--gray-600); font-family:var(--sans);
+            font-weight:500; font-size:15px; padding:15px 18px; text-decoration:none;
+            border:1px solid var(--gray-200); border-radius:11px; cursor:pointer; transition:all .2s ease;
+        }
+        .pfm-secondary b{color:var(--navy); font-weight:700}
+        .pfm-secondary:hover{border-color:var(--navy); background:var(--gray-50)}
+        .pfm-text-link{border:none; padding:9px 0 0; font-size:13.5px; color:var(--gray-500); font-weight:500}
+        .pfm-text-link:hover{background:transparent; color:var(--red)}
+
+        .pfm-foot{display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;
+                  margin-top:18px; font-size:12.5px; color:var(--gray-500); font-weight:500; text-align:center}
+        .pfm-foot-chk{width:16px; height:16px; border-radius:50%; background:var(--ink); color:#fff;
+                      display:inline-flex; align-items:center; justify-content:center; font-size:9px; font-weight:700}
+
+        @media (prefers-reduced-motion:reduce){
+            .pfm-overlay, .pfm-dialog{transition:none}
+            .pfm-dialog{transform:none}
+        }
     </style>
 </head>
 <body>
@@ -1781,6 +1897,54 @@
         </a>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════
+         PRE-FRAME MODAL  (fires when any Apply CTA is clicked)
+         ── To add your walkthrough video: replace the <img> + overlay
+            inside .pfm-video with your <iframe>/<video> embed.
+         ═══════════════════════════════════════════════════════ -->
+    <div id="preframe-modal" class="pfm-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pfm-title">
+        <div class="pfm-dialog" role="document">
+            <button class="pfm-close" aria-label="Close">&times;</button>
+
+            <div class="pfm-kicker">★ One quick thing before you go</div>
+            <h2 id="pfm-title" class="pfm-title">Here's <span>exactly</span> what happens next.</h2>
+
+            <!-- VIDEO SLOT — swap contents for your screen-recording embed when ready -->
+            <div class="pfm-video">
+                <img src="https://res.cloudinary.com/dhmzbmbgv/image/upload/v1779927635/qxbvr39vr04gclalfb9b.jpg" alt="Darin Rhodes">
+                <div class="pfm-video-overlay">
+                    <div class="pfm-play">▶</div>
+                    <div class="pfm-video-cap">Darin walks you through it — about 60 seconds</div>
+                </div>
+            </div>
+            <!-- END VIDEO SLOT -->
+
+            <p class="pfm-intro">You're heading to our secure application. It's quick — about 3 minutes — but I want you to know what's coming so nothing catches you off guard.</p>
+
+            <div class="pfm-card">
+                <div class="pfm-card-head">They'll ask you for:</div>
+                <ul class="pfm-list">
+                    <li><span class="pfm-chk">✓</span> Your property address</li>
+                    <li><span class="pfm-chk">✓</span> Contact info</li>
+                    <li><span class="pfm-chk">✓</span> A quick income estimate</li>
+                    <li><span class="pfm-chk">✓</span> Your Social Security number <em>— and here's the thing: that's only for the soft credit check, the one that does <b>not</b> touch your score</em></li>
+                </ul>
+            </div>
+
+            <p class="pfm-reassure">This goes straight to our actual lending partner's application — the real deal, the one I've put my 25-year name behind. No appraiser, no commitment, no pressure. You're just seeing your numbers.</p>
+
+            <button id="pfm-continue" class="pfm-primary">Continue to My Application <span class="arrow">→</span></button>
+
+            <div class="pfm-help">
+                <div class="pfm-help-q">Rather have me walk you through it?</div>
+                <a id="pfm-call" class="pfm-secondary" href="tel:+18018777959">📞 <b>Call Darin right now → 801-877-7959</b></a>
+                <a id="pfm-text" class="pfm-secondary pfm-text-link" href="sms:+18018777959">…or text me and I'll walk you through it</a>
+            </div>
+
+            <div class="pfm-foot"><span class="pfm-foot-chk">✓</span> Soft credit check only · Won't affect your score · No obligation</div>
+        </div>
+    </div>
+
     <script>
         // ──────────────── SCROLL REVEALS ────────────────
         const observer = new IntersectionObserver((entries) => {
@@ -1789,17 +1953,6 @@
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // ──────────────── CTA TRACKING ────────────────
-        document.querySelectorAll('a[id^="cta-"]').forEach(cta => {
-            cta.addEventListener('click', () => {
-                const ctaLocation = cta.id.replace('cta-', '');
-                if (typeof fbq !== 'undefined') {
-                    fbq('track', 'Lead', { content_name: ctaLocation });
-                }
-                console.log('CTA clicked:', ctaLocation);
-            });
-        });
 
         // ──────────────── CALCULATOR SLIDER ────────────────
         const slider   = document.getElementById('calc-slider');
@@ -1836,7 +1989,73 @@
         slider.addEventListener('input', () => { updateCalc(); trackCalcEngagement(); });
         updateCalc(); // initial render
 
+        // ──────────────── PRE-FRAME MODAL ────────────────
+        // Intercepts the Apply CTAs, sets expectation for the Aven hand-off,
+        // and offers a self-serve door + a call/text door. This REPLACES the
+        // old CTA-tracking loop (so the Lead event doesn't fire twice).
+        (function () {
+            const AVEN_FALLBACK = "https://flow.avenfoundry.com?i=7ded9bc4-9571-4e1b-8f38-727d6af03239";
 
+            const modal       = document.getElementById("preframe-modal");
+            const closeBtn     = modal.querySelector(".pfm-close");
+            const continueBtn  = document.getElementById("pfm-continue");
+            const callBtn      = document.getElementById("pfm-call");
+            const textBtn      = document.getElementById("pfm-text");
+            let   avenUrl      = AVEN_FALLBACK;
+            let   lastFocus    = null;
+
+            function openModal(url, location) {
+                avenUrl = url || AVEN_FALLBACK;
+                lastFocus = document.activeElement;
+                modal.classList.add("open");
+                modal.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+                // "Apply clicked / modal opened" — same Lead event as before,
+                // so existing ad optimization keeps its footing.
+                if (typeof fbq !== "undefined") fbq("track", "Lead", { content_name: location || "apply_click" });
+                closeBtn.focus();
+            }
+            function closeModal() {
+                modal.classList.remove("open");
+                modal.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+                if (lastFocus) lastFocus.focus();
+            }
+
+            // Intercept every Apply CTA pointing at the lender app.
+            // (tel:/anchor links are skipped by the URL test.)
+            document.querySelectorAll('a[id^="cta-"]').forEach(function (cta) {
+                const href = cta.getAttribute("href") || "";
+                if (href.indexOf("avenfoundry") === -1 && href.indexOf("flow.aven") === -1) return;
+                cta.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    openModal(href, cta.id.replace("cta-", ""));
+                });
+            });
+
+            // PRIMARY door → continue to the lender application.
+            // Fires SubmitApplication = HIGH-INTENT (saw SSN heads-up, proceeded).
+            // Switch your ad optimization to this event once it gets ~50/week.
+            continueBtn.addEventListener("click", function () {
+                if (typeof fbq !== "undefined") fbq("track", "SubmitApplication");
+                window.location.href = avenUrl;  // same tab = clean "next step" handoff
+            });
+
+            // SECONDARY door → call or text Darin right now.
+            callBtn.addEventListener("click", function () {
+                if (typeof fbq !== "undefined") fbq("track", "Contact", { method: "call" });
+            });
+            textBtn.addEventListener("click", function () {
+                if (typeof fbq !== "undefined") fbq("track", "Contact", { method: "text" });
+            });
+
+            // Close interactions
+            closeBtn.addEventListener("click", closeModal);
+            modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+            });
+        })();
     </script>
 
 </body>

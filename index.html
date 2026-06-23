@@ -1369,6 +1369,17 @@
         }
         .pfm-video img{width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; filter:brightness(.82)}
         .pfm-video iframe, .pfm-video video{width:100%; height:100%; border:0; display:block}
+        .pfm-unmute{
+            position:absolute; bottom:12px; right:12px; z-index:4;
+            display:inline-flex; align-items:center; gap:6px;
+            background:var(--red); color:#fff; border:none; cursor:pointer;
+            font-family:var(--sans); font-weight:700; font-size:13px;
+            padding:9px 14px; border-radius:999px;
+            box-shadow:0 6px 18px -4px rgba(220,38,38,0.7);
+            transition:opacity .2s ease, transform .2s ease;
+        }
+        .pfm-unmute:hover{transform:translateY(-1px)}
+        .pfm-unmute.pfm-hidden{opacity:0; visibility:hidden}
         .pfm-video-overlay{
             position:absolute; inset:0; display:flex; flex-direction:column;
             align-items:center; justify-content:center; gap:14px;
@@ -1909,13 +1920,14 @@
             <div class="pfm-kicker">★ One quick thing before you go</div>
             <h2 id="pfm-title" class="pfm-title">Here's <span>exactly</span> what happens next.</h2>
 
-            <!-- VIDEO SLOT — swap contents for your screen-recording embed when ready -->
+            <!-- VIDEO SLOT — Darin's walkthrough (YouTube, autoplay-muted) -->
             <div class="pfm-video">
-                <img src="https://res.cloudinary.com/dhmzbmbgv/image/upload/v1779927635/qxbvr39vr04gclalfb9b.jpg" alt="Darin Rhodes">
-                <div class="pfm-video-overlay">
-                    <div class="pfm-play">▶</div>
-                    <div class="pfm-video-cap">Darin walks you through it — about 60 seconds</div>
-                </div>
+                <iframe id="pfm-yt"
+                    src="about:blank"
+                    data-src="https://www.youtube-nocookie.com/embed/W9QqdF0KUQM?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&controls=1&enablejsapi=1"
+                    title="Darin walks you through the application"
+                    allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                <button class="pfm-unmute" id="pfm-unmute" type="button">🔊 Tap for sound</button>
             </div>
             <!-- END VIDEO SLOT -->
 
@@ -2001,8 +2013,29 @@
             const continueBtn  = document.getElementById("pfm-continue");
             const callBtn      = document.getElementById("pfm-call");
             const textBtn      = document.getElementById("pfm-text");
+            const yt           = document.getElementById("pfm-yt");
+            const unmuteBtn    = document.getElementById("pfm-unmute");
             let   avenUrl      = AVEN_FALLBACK;
             let   lastFocus    = null;
+
+            // Load the YouTube embed only when the modal opens (autoplay-muted),
+            // and tear it down on close so it stops playing.
+            function startVideo() {
+                if (yt && yt.dataset.src) yt.src = yt.dataset.src;
+                if (unmuteBtn) unmuteBtn.classList.remove("pfm-hidden");
+            }
+            function stopVideo() {
+                if (yt) yt.src = "about:blank";
+            }
+            // One-tap unmute: reload the embed unmuted, then hide the button.
+            if (unmuteBtn) {
+                unmuteBtn.addEventListener("click", function () {
+                    if (yt && yt.dataset.src) {
+                        yt.src = yt.dataset.src.replace("mute=1", "mute=0");
+                    }
+                    unmuteBtn.classList.add("pfm-hidden");
+                });
+            }
 
             function openModal(url, location) {
                 avenUrl = url || AVEN_FALLBACK;
@@ -2010,6 +2043,7 @@
                 modal.classList.add("open");
                 modal.setAttribute("aria-hidden", "false");
                 document.body.style.overflow = "hidden";
+                startVideo();
                 // "Apply clicked / modal opened" — same Lead event as before,
                 // so existing ad optimization keeps its footing.
                 if (typeof fbq !== "undefined") fbq("track", "Lead", { content_name: location || "apply_click" });
@@ -2019,6 +2053,7 @@
                 modal.classList.remove("open");
                 modal.setAttribute("aria-hidden", "true");
                 document.body.style.overflow = "";
+                stopVideo();
                 if (lastFocus) lastFocus.focus();
             }
 
